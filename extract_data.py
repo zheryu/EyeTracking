@@ -1,3 +1,5 @@
+from matplotlib import pyplot as plt
+
 def getData(file_name, fields = ["Time", "L Mapped Diameter [mm]", "R Mapped Diameter [mm]"]):
 	print ('file name: {}'.format(file_name))
 	data = open(file_name, 'r').read()
@@ -12,17 +14,34 @@ def getData(file_name, fields = ["Time", "L Mapped Diameter [mm]", "R Mapped Dia
 	for field in fields:
 		field_indexes += [all_fields.index(field)]
 	type_index = all_fields.index("Type")
-	results = []
+	results = [[] for field in fields]
 	for j in range(i+2, len(data)):
 		line = data[j].split('\t')
 		if len(line) > 1 and line[type_index] == "SMP":
-			results += [[line[x] for x in field_indexes]]
+			for k in range(len(field_indexes)):
+				results[k] += [line[field_indexes[k]]]
 	return results
 
+def plotData(x, *y):
+	colors = ["b","g","r","c","m","y","k"]
 
-
-
+	plt.xlabel("timestamp")
+	plt.ylabel("values")
+	for i in range(len(y)):
+		plt.plot(x, y[i], colors[i%7])
+	plt.show()
 
 
 if __name__ == "__main__":
-	print(getData('samples/atoms28-eye_data Samples.txt')[:5])
+	data = getData('samples/atoms28-eye_data Samples.txt')
+	plotData(data[0][1:], data[1][1:], data[2][1:])	#note the first observation is probably unreliable. Weird values yo.
+	
+	# l_zeros = []
+	# r_zeros = []
+	# for i in range(len(data)):
+	# 	if float(data[i][1]) < 1:
+	# 		l_zeros += [i]
+	# 	if float(data[i][2]) < 1:
+	# 		r_zeros += [i]
+	# print('l_zeros: {}'.format(l_zeros))
+	# print('r_zeros: {}'.format(r_zeros))
