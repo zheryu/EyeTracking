@@ -1,6 +1,32 @@
 from matplotlib import pyplot as plt
 
-def getData(file_name, fields = ["Time", "L Mapped Diameter [mm]", "R Mapped Diameter [mm]"]):
+# Ripped straight from patent doc:
+#
+# pd=pupil diameter of current observation
+#
+# hor=horizontal coordinate of current observation
+#
+# vert=vertical coordinate of current observation
+#
+# dist=distance from eye to screen (only for ASL files)
+#
+# XDAT=a timing signal sent from the display software to the eye tracker
+#
+# The XDAT signal can indicate change of display screen, subject keyboard response, or subject mouse response. The use of this variable depends upon the particular material being tracked.
+#
+# Each of these vectors will be of size (nxl) where n is the number of total observations in the file.
+
+
+
+REL_COLS = ["Time", "pd", "hor", "vert", "dist", "XDAT"]
+
+IDF_COL_MAP = {"Time": "Time", "pd": "Mapped Diameter [mm]", "dist": ""}
+
+def getData(file_name)
+
+
+
+def getDataIdfTxt(file_name, fields = ["Time", "L Mapped Diameter [mm]", "R Mapped Diameter [mm]"]):
 	print ('file name: {}'.format(file_name))
 	data = open(file_name, 'r').read()
 
